@@ -30,11 +30,11 @@
 # 总结
 - 上述过程会遇到内核功能没开启情况，会多次修改和编译，使用menuconf和大模型工具，整体还算顺利
 - 网上搜索到的内核功能check代码
-<code>
-pkg install tsu
-pkg install wget
-wget https://raw.githubusercontent.com/moby/moby/master/contrib/check-config.sh
-chmod +x check-config.sh
-sed -i '1s_.*_#!/data/data/com.termux/files/usr/bin/bash_' check-config.sh
-sudo ./check-config.sh
-</code>
+    <code>
+      pkg install tsu
+      pkg install wget
+      wget https://raw.githubusercontent.com/moby/moby/master/contrib/check-config.sh
+      chmod +x check-config.sh
+      sed -i '1s_.*_#!/data/data/com.termux/files/usr/bin/bash_' check-config.sh
+      sudo ./check-config.sh
+    </code>
