@@ -1,0 +1,30 @@
+# 编译kernel
+## 同步 lineageOS 22.1 mi8的内核和编译工具
+- git clone -b lineage-22.1 https://github.com/LineageOS/android_kernel_xiaomi_sdm845.git
+- git clone https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9.git
+
+## 适配文件
+- 只需要编译内核，因此不需要lineageOS 代码。但prebuilts_gcc需要配置下，实际可以的工具是`real-aarch64-linux-android-gcc`(需要把这个改名成`aarch64-linux-android-gcc-4.9`)
+- mi8 内核的defconfig文件需要使用vendor目录里的sdm845和dipper直接cat合并即可成merge_defconfig文件
+
+## 配置环境和编译
+- 安装 make arm32 等交叉编译环境
+- 执行 build.sh 等待编译。注意，会有些报错，直接问大模型，都能比较容易处理，此处不在详细记录
+- 编译产出在指定out目录arch/arm64/boot里
+
+## 打包镜像
+-- 同步 https://github.com/osm0sis/AnyKernel3
+-- 编译产出只用 Image.gz-dtb 即可，按 AnyKernel3 使用方法打包即可
+
+# 刷入OS
+## 刷入 lineageOS 22.1, 注意一定按文档要刷入指定 MIUI 底包
+## 推荐 OrangeFox Recovery, 完美配合 lineageOS 22.1
+## 刷入Magisk, 最优是这步输入，这样后续来回调试kernel不用反复用Magisk处理boot
+
+# 开启docker
+## 安装 termux、root-repo、docker，一定需要root
+## 挂载 `sudo mount -t tmpfs -o uid=0,gid=0,mode=0755 cgroup /sys/fs/cgroup`
+- 正常简单 docker 就可以增常使用，复杂的 docker 应用尤其涉及到文件操作，目前还无法完全支持
+- 可以一并把 SMB、NFS 等文件模块一起刷入内核，merge_defconf已经配置
+  
+# 上述过程会遇到内核功能没开启情况，会多次修改和编译，使用menuconf和大模型工具，整体还算顺利
