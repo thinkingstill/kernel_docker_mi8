@@ -23,10 +23,16 @@
 
 # 开启docker
 ## 安装 termux、root-repo、docker，一定需要root
-## 挂载 `sudo mount -t tmpfs -o uid=0,gid=0,mode=0755 cgroup /sys/fs/cgroup`
+## 挂载cgroup 
+- `sudo mount -t tmpfs -o uid=0,gid=0,mode=0755 cgroup /sys/fs/cgroup`
+- `sudo dockerd --iptables=false`
 - 正常简单 docker 就可以使用了 ，但复杂的 docker 应用尤其涉及到文件操作等，目前还不能很好支持
 - 可以一并把 SMB、NFS 等文件模块一起刷入内核，merge_defconf已经配置
-  
+
+# 配置docker-compose
+- 从 docker compose 的 github 上下载适合 aarch64 的 docker-compose 二进制文件
+- mv 到 termux 到 /usr/bin下
+- docker-compose 默认unix path 在 /var/runx下，使用时需要`sudo  DOCKER_HOST=unix:///data/data/com.termux/files/usr/var/run/docker.sock  docker-compose  up` 
 # 总结
 - 上述过程会遇到内核功能没开启情况，会多次修改和编译，使用menuconf和大模型工具，整体还算顺利
 - 网上搜索到的内核功能check代码
